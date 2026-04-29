@@ -1,4 +1,5 @@
-﻿using SkiaSharp;
+using System.Diagnostics.Tracing;
+using SkiaSharp;
 
 
 // percorso dell'immagine da cui attingere
@@ -112,6 +113,7 @@ __/\__ |  \/  | ___ _ __  _\_\_
                   |_|   |_|_|\__|_|  |_|   \/   
 ";
 string titolo4 = @"
+
         __  __             __                                                 
 __/\__ |  \/  | ___ _ __  _\_\_                                               
 \    / | |\/| |/ _ \ '_ \| | | |                                              
@@ -122,11 +124,19 @@ __/\__ |  \/  | ___ _ __  _\_\_
             | |__| (_) | | | \ V / (_) | | |_| |/ /| | (_) | | | |  __/ /_  _\
              \____\___/|_| |_|\_/ \___/|_|\__,_/___|_|\___/|_| |_|\___|   \/   
 ";
+string errore = ""; // Messaggio di errore 
+string messaggio = ""; // Messaggio di successo
 
 bool controllo = true;
-while (controllo)
+while (controllo) // ======= Gestione menù ========
 {
     Console.Clear();
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine(errore);
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine(messaggio);
+    Console.ResetColor();
     Console.ForegroundColor = ConsoleColor.Green;
     Console.WriteLine(titolo1);
     Console.ResetColor();
@@ -142,156 +152,194 @@ while (controllo)
     Console.WriteLine("6)   SpecchiaX");
     Console.WriteLine("7)   SpecchiaY");
     Console.Write("* ");
-    int scelta = Convert.ToInt32(Console.ReadLine());
+    messaggio = "";
 
-    if(scelta == 0)
+    if (int.TryParse(Console.ReadLine(), out int scelta))
     {
-        break;
-    }
-    else if (scelta == 1)
-    {
-        Trasposizione();
-        Console.WriteLine("L'immagine e' stata trasposta"); 
-    }
-    else if(scelta == 2)
-    {
-        Console.ForegroundColor = ConsoleColor.Magenta;
-        Console.WriteLine(titolo2);
-        Console.ResetColor();
-        Console.WriteLine("======== Menù ========");
-        Console.WriteLine("");
-        Console.WriteLine("Scegliere un opzione di rotazione(senso antiorario):");
-        Console.WriteLine("0)   90°");
-        Console.WriteLine("1)   180°");
-        Console.WriteLine("2)   270°");
-        Console.Write("* ");
-        int sceltaRotazione = Convert.ToInt32(Console.ReadLine());
+        errore = "";
 
-        if (sceltaRotazione == 0)
+        if(scelta == 0)
         {
-            Rotea90();
-            Console.WriteLine("Immagine ruotata di 90°"); 
+            break;
         }
-        else if(sceltaRotazione == 1)
+        else if (scelta == 1)
         {
-            Rotea180();
-            Console.WriteLine("Immagine ruotata di 180°");  
+            Trasposizione();
+            Console.WriteLine("L'immagine e' stata trasposta"); 
         }
-        else if(sceltaRotazione == 2)
+        else if(scelta == 2)
         {
-            Rotea270();
-            Console.WriteLine("Immagine ruotata di 270°");  
-        }
-    }
-    else if (scelta == 3)
-    {
-        ScalaDiGrigi();
-    }
-        else if(scelta == 4)
-    {
-        Console.ForegroundColor = ConsoleColor.DarkYellow;
-        Console.WriteLine(titolo3);
-        Console.ResetColor();
-        Console.WriteLine("======== Menù ========");
-        Console.WriteLine("");
-        Console.WriteLine("Scegliere un filtro colore:");
-        Console.WriteLine("0)   Rosso");
-        Console.WriteLine("1)   Verde");
-        Console.WriteLine("2)   Blu");
-        Console.WriteLine("3)   Cremisi");
-        Console.WriteLine("4)   Ceruleo");
-        Console.WriteLine("5)   Palude");
-        Console.Write("* ");
-        int sceltaFiltri = Convert.ToInt32(Console.ReadLine());
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine(titolo2);
+            Console.ResetColor();
+            Console.WriteLine("======== Menù ========");
+            Console.WriteLine("");
+            Console.WriteLine("Scegliere un opzione di rotazione(senso antiorario):");
+            Console.WriteLine("0)   90°");
+            Console.WriteLine("1)   180°");
+            Console.WriteLine("2)   270°");
+            Console.Write("* ");
 
-        if (sceltaFiltri == 0)
-        {
-            FiltroRosso();
-            Console.WriteLine("E' stato applicato un filtro rosso all'immagine"); 
+            if (int.TryParse(Console.ReadLine(), out int sceltaRotazione))
+            {
+                if (sceltaRotazione == 0)
+                {
+                    Rotea90();
+                    messaggio = "Immagine ruotata di 90°";  
+                }
+                else if(sceltaRotazione == 1)
+                {
+                    Rotea180();
+                    messaggio = "Immagine ruotata di 180°";  
+                }
+                else if(sceltaRotazione == 2)
+                {
+                    Rotea270();
+                    messaggio = "Immagine ruotata di 270°";  
+                }
+            }
+            else
+            {
+                errore = "Il valore inserito non è valido riprovare.";
+            }
         }
-        else if(sceltaFiltri == 1)
+        else if (scelta == 3)
         {
-            FiltroVerde();
-            Console.WriteLine("E' stato applicato un filtro verde all'immagine");  
+            ScalaDiGrigi();
         }
-        else if(sceltaFiltri == 2)
+            else if(scelta == 4)
         {
-            FiltroBlu();
-            Console.WriteLine("E' stato applicato un filtro blu all'immagine"); 
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine(titolo3);
+            Console.ResetColor();
+            Console.WriteLine("======== Menù ========");
+            Console.WriteLine("");
+            Console.WriteLine("Scegliere un filtro colore:");
+            Console.WriteLine("0)   Rosso");
+            Console.WriteLine("1)   Verde");
+            Console.WriteLine("2)   Blu");
+            Console.WriteLine("3)   Cremisi");
+            Console.WriteLine("4)   Ceruleo");
+            Console.WriteLine("5)   Palude");
+            Console.Write("* ");
+
+            if (int.TryParse(Console.ReadLine(), out int sceltaFiltri))
+            {
+                if (sceltaFiltri == 0)
+                {
+                    FiltroRosso();
+                    messaggio = "E' stato applicato un filtro rosso all'immagine"; 
+                }
+                else if(sceltaFiltri == 1)
+                {
+                    FiltroVerde();
+                    messaggio = "E' stato applicato un filtro verde all'immagine";  
+                }
+                else if(sceltaFiltri == 2)
+                {
+                    FiltroBlu();
+                    messaggio = "E' stato applicato un filtro blu all'immagine";  
+                }
+                else if(sceltaFiltri == 3)
+                {
+                    FiltroCremisi();
+                    messaggio = "E' stato applicato un filtro personalizzato all'immagine";
+                }
+                else if(sceltaFiltri == 4)
+                {
+                    FiltroCeruleo();
+                    messaggio = "E' stato applicato un filtro personalizzato all'immagine";
+                }
+                else if(sceltaFiltri == 5)
+                {
+                    FiltroPalude();
+                    messaggio = "E' stato applicato un filtro personalizzato all'immagine";
+                }
+            }
+            else
+            {
+                errore = "Il valore inserito non è valido riprovare.";
+            }
+
         }
-        else if(sceltaFiltri == 3)
+            else if(scelta == 5)
         {
-            FiltroCremisi();
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine(titolo4);
+            Console.ResetColor();
+            Console.WriteLine("======== Menù ========");
+            Console.WriteLine("");
+            Console.WriteLine("Scegliere un filtro di convoluzione:");
+            Console.WriteLine("0)   Sharpening");
+            Console.WriteLine("1)   Blur");
+            Console.WriteLine("2)   Sobel Edge Detection_X");
+            Console.WriteLine("3)   Sobel Edge Detection_Y");
+            Console.WriteLine("4)   OutlineTotale");
+            Console.WriteLine("5)   Emboss");
+            Console.Write("* ");
+
+            if (int.TryParse(Console.ReadLine(), out int sceltaFiltri2))
+            {
+                if (sceltaFiltri2 == 0)
+                {
+                    Sharpening();
+                    messaggio = "E' stato applicato lo sharpening dell'immagine"; 
+                }
+                else if(sceltaFiltri2 == 1)
+                {
+                    Blur();
+                    Blur();
+                    Blur();
+                    messaggio = "E' stato applicato il blur dell'immagine";   
+                }
+                else if(sceltaFiltri2 == 2)
+                {
+                    EdgeDetectionX();
+                    messaggio = "Edge detection (X) applicato"; 
+                }
+                else if(sceltaFiltri2 == 3)
+                {
+                    EdgeDetectionY();
+                    messaggio = "Edge detection (Y) applicato";
+                }
+                else if(sceltaFiltri2 == 4)
+                {
+                    OutlineTotale();
+                    messaggio = "Outline applicato";
+                }
+                else if(sceltaFiltri2 == 5)
+                {
+                    Emboss();
+                    messaggio = "Emboss applicato";
+                }
+            }
+            else
+            {
+                errore = "Il valore inserito non è valido riprovare.";
+            }
+
         }
-        else if(sceltaFiltri == 4)
+        else if (scelta == 6)
         {
-            FiltroCeruleo();
+            SpecchiaX();
+            messaggio = "Immagine specchiata orizzontalmente";
         }
-        else if(sceltaFiltri == 5)
+            else if (scelta == 7)   
         {
-            FiltroPalude();
+            SpecchiaY();
+            messaggio = "Immagine specchiata verticalmente";
+        }
+        else
+        {
+            errore = $"Il numero '{scelta}' non è fra le opzioni riprovare.";
         }
     }
-
-        else if(scelta == 5)
-    {
-        Console.ForegroundColor = ConsoleColor.Blue;
-        Console.WriteLine(titolo4);
-        Console.ResetColor();
-        Console.WriteLine("======== Menù ========");
-        Console.WriteLine("");
-        Console.WriteLine("Scegliere un filtro di convoluzione:");
-        Console.WriteLine("0)   Sharpening");
-        Console.WriteLine("1)   Blur");
-        Console.WriteLine("2)   Sobel Edge Detection_X");
-        Console.WriteLine("3)   Sobel Edge Detection_Y");
-        Console.WriteLine("4)   OutlineTotale");
-        Console.WriteLine("5)   Emboss");
-        Console.Write("* ");
-        int sceltaFiltri2 = Convert.ToInt32(Console.ReadLine());
-
-        if (sceltaFiltri2 == 0)
-        {
-            Sharpening();
-            Console.WriteLine("E' stato applicato lo sharpening dell'immagine"); 
-        }
-        else if(sceltaFiltri2 == 1)
-        {
-            Blur();
-            Console.WriteLine("E' stato applicato il blur dell'immagine");  
-        }
-        else if(sceltaFiltri2 == 2)
-        {
-            EdgeDetectionX();
-        }
-        else if(sceltaFiltri2 == 3)
-        {
-            EdgeDetectionY();
-        }
-        else if(sceltaFiltri2 == 4)
-        {
-            OutlineTotale();
-        }
-        else if(sceltaFiltri2 == 5)
-        {
-            Emboss();
-        }
-    }
-
-    else if (scelta == 6)
-    {
-        SpecchiaX();
-    }
-        else if (scelta == 7)   
-    {
-        SpecchiaY();
-    }
-
     else
     {
-        Console.WriteLine("Valore non valido riprovare");
+        errore = "Il valore inserito non è valido riprovare.";
     }
 }
+
 
 void Rotea90()
 {    
@@ -325,6 +373,7 @@ void Rotea90()
     }
 
     ruotata.Dispose();// Pulizia risorse estene (tutto ciò che è fuori dal controllo dell'ambiente di esecuzione)
+                      //Libera dalla memoria la bitmap
 }
 
 void Rotea180()
@@ -725,70 +774,39 @@ void Sharpening()
 }
 
 void Blur()
-{    
-    // Carico foto in originale e la ruoto in una bitmap
+{
     using var original = SKBitmap.Decode(imagePath);
-    //copio in una nuova bitmap
     var convoluzione = new SKBitmap(original.Width, original.Height);
 
-    //i = righe, j = colonne
-    int[,] kernel =
+    int offset = 3; // quanti pixel sposti l'immagine verso l'alto
+    int passaggi = 4; // quante volte sovrapponi (più passaggi = più blur)
+
+    for (int y = 0; y < original.Height; y++)
     {
-        {1, 2, 1,},
-        {2, 4, 2,},
-        {1, 2, 1,},
-    };
-    
-        for(int y = 0; y < original.Height; y++){
-        
-        for(int x = 0; x < original.Width; x++){
+        for (int x = 0; x < original.Width; x++)
+        {
+            int sumR = 0, sumG = 0, sumB = 0;
 
-            int sumR = 0;
-            int sumG = 0;
-            int sumB = 0;            
-            int pesoTotale = 0;
-
-            // Facciamo partire i cicli del kernel da -1 fino a +1 compreso
-            for (int j = -1; j <= 1; j++)
+            for (int p = 0; p < passaggi; p++)
             {
-                for (int i = -1; i <= 1; i++)
-                {
+                int pixelY = y + (p * offset); // ogni passaggio sposta di offset pixel
 
-                    int pixelX = x + i;
-                    int pixelY = y + j;
-                    
-                    //controllo dei bordi
-                    if (pixelX >= 0 && pixelX < original.Width && pixelY >= 0 && pixelY < original.Height)
-                    {
-                        SKColor pixelColor = original.GetPixel(pixelX, pixelY);
-            
-                        // Quando i=-1, leggerà 0. Quando i=0, leggerà 1. Quando i=1, leggerà 2.
-                        int k = kernel[j + 1, i + 1];
+                // se usciamo dai bordi usiamo l'ultimo pixel valido
+                if (pixelY >= original.Height) pixelY = original.Height - 1;
 
-                        sumR += pixelColor.Red * k;
-                        sumG += pixelColor.Green * k;
-                        sumB += pixelColor.Blue * k;
-
-                        pesoTotale += k;
-                    }
-                }
+                SKColor c = original.GetPixel(x, pixelY);
+                sumR += c.Red;
+                sumG += c.Green;
+                sumB += c.Blue;
             }
 
-            if (pesoTotale == 0) pesoTotale = 1; // evitiamo le divisioni per 0
+            // facciamo la media dei colori sovrapposti per non sforare da 255
+            byte finalR = (byte)(sumR / passaggi);
+            byte finalG = (byte)(sumG / passaggi);
+            byte finalB = (byte)(sumB / passaggi);
 
-            // Dividiamo per la somma totale dei pesi
-            sumR = sumR / pesoTotale;
-            sumG = sumG / pesoTotale;
-            sumB = sumB / pesoTotale;
-
-            // Blocchiamo i valori nel range corretto (0 - 255)
-            byte finalR = (byte)Math.Clamp(sumR, 0, 255);
-            byte finalG = (byte)Math.Clamp(sumG, 0, 255);
-            byte finalB = (byte)Math.Clamp(sumB, 0, 255);
-
-            convoluzione.SetPixel(x, y, new SKColor(finalR, finalG, finalB));           
-
-        }     
+            convoluzione.SetPixel(x, y, new SKColor(finalR, finalG, finalB));
+        }
     }
 
     using (var image = SKImage.FromBitmap(convoluzione))
